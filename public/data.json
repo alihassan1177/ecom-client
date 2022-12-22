@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Samsung Galaxy S8",
+    "company": "Samsung",
+    "image": "/images/samsung.jpg",
+    "id": 1,
+    "price": 500
+  },
+  {
+    "name": "Samsung Galaxy S8",
+    "company": "Samsung",
+    "image": "/images/samsung.jpg",
+    "id": 2,
+    "price": 300
+  },
+  {
+    "name": "Samsung Galaxy S8",
+    "company": "Samsung",
+    "image": "/images/samsung.jpg",
+    "id": 3,
+    "price": 180
+  },
+  {
+    "name": "Samsung Galaxy S8",
+    "company": "Samsung",
+    "image": "/images/samsung.jpg",
+    "id": 4,
+    "price": 700
+  }
+]
