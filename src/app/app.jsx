@@ -3,7 +3,8 @@ import Header from './components/Header'
 import ProductCard from './components/ProductCard.jsx'
 import { useState, useEffect } from 'react'
 import CartContext from './context/Cart'
-import {useProducts} from "./context/Product"
+import { useProducts } from './context/Product'
+import { MobileNavigation } from './components/Navigation'
 
 export default function App() {
   const { products, setProducts } = useProducts()
@@ -21,10 +22,10 @@ export default function App() {
   }, [])
 
   return (
-    <>
+    <main className='md:block flex flex-col md:max-h-full max-h-screen overflow-hidden'>
       <CartContext>
         <Header />
-        <div className="mt-3 container">
+        <div className="mt-3 md:container md:h-full flex-1 overflow-y-auto">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2">
             {loading
               ? 'Loading'
@@ -42,7 +43,8 @@ export default function App() {
               })}
           </div>
         </div>
+        <MobileNavigation />
       </CartContext>
-    </>
+    </main>
   )
 }

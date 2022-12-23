@@ -33,7 +33,7 @@ export default function Header() {
         </button>
         <Cart cartOpen={cartExpanded} setCart={setCartExpanded} />
 
-        <Navigation navExpanded={true} />
+        <Navigation  />
       </nav>
     </header>
   )

@@ -18,6 +18,9 @@
   .nav-link {
     @apply block p-4 hover:bg-white hover:text-black transition-colors;
   }
+  .nav-link.mobile{
+    @apply h-full grid place-items-center
+  }
   .btn {
     @apply p-2 bg-black hover:opacity-80 transition-all text-white rounded-md;
   }
@@ -37,10 +40,5 @@
     border: 1px solid black;
   }
 }
-@media screen and (max-width: 768px) {
-  .nav-position {
-    --height: 70px;
-    height: var(--height);
-    top: calc(100vh - var(--height));
-  }
-}
+
+
