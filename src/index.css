@@ -3,37 +3,44 @@
 @tailwind utilities;
 
 @layer base {
-   *{
-    font-family: "Poppins", sans-serif;
-   }
-   body{
-    overflow-x:hidden;
-   }
-   .container{
-    @apply mx-auto px-3
-   }
+  * {
+    font-family: 'Poppins', sans-serif;
+  }
+  body {
+    overflow-x: hidden;
+  }
+  .container {
+    @apply mx-auto px-3;
+  }
 }
 
 @layer components {
-  .nav-link{
-    @apply block p-4 hover:bg-white hover:text-black transition-colors
+  .nav-link {
+    @apply block p-4 hover:bg-white hover:text-black transition-colors;
   }
-  .btn{
-    @apply p-2 bg-black hover:opacity-80 transition-all text-white rounded-md
+  .btn {
+    @apply p-2 bg-black hover:opacity-80 transition-all text-white rounded-md;
   }
-  .cart-btn::after{
-    content : attr(data-total);
+  .cart-btn::after {
+    content: attr(data-total);
     position: absolute;
-    top:-10px;
-    right:-10px;
+    top: -10px;
+    right: -10px;
     background: white;
-    color:black;
-    padding:10px 5px; 
-    font-size:14px;
-    display : grid;
-    place-items:center;
-    line-height:0px;
-    border-radius:30px;
-    border:1px solid black;
+    color: black;
+    padding: 10px 5px;
+    font-size: 14px;
+    display: grid;
+    place-items: center;
+    line-height: 0px;
+    border-radius: 30px;
+    border: 1px solid black;
+  }
+}
+@media screen and (max-width: 768px) {
+  .nav-position {
+    --height: 70px;
+    height: var(--height);
+    top: calc(100vh - var(--height));
   }
 }

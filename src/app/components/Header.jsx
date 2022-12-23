@@ -1,17 +1,19 @@
 import React, { useState, useContext } from 'react'
+import Navigation from './Navigation.jsx'
 import PropTypes from 'prop-types'
 import { ProductCardRow } from './ProductCard.jsx'
 import { Link } from 'react-router-dom'
-import { FaBars, FaTimes, FaShoppingCart } from 'react-icons/fa'
+import { FaTimes, FaShoppingCart } from 'react-icons/fa'
 import { context as CartContext } from '../context/Cart.jsx'
 
 export default function Header() {
-  const [navExpanded, setNavExpanded] = useState(false)
   const [cartExpanded, setCartExpanded] = useState(false)
   const { cart } = useContext(CartContext)
 
   if (cartExpanded) {
     document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflowY = 'auto'
   }
 
   return (
@@ -30,27 +32,8 @@ export default function Header() {
           <FaShoppingCart />
         </button>
         <Cart cartOpen={cartExpanded} setCart={setCartExpanded} />
-        <button onClick={() => setNavExpanded(!navExpanded)} className="md:hidden text-2xl block">
-          {!navExpanded ? <FaBars /> : <FaTimes />}
-        </button>
-        <ul
-          className={` left-0 md:items-center ${
-            navExpanded ? 'flex' : 'hidden md:flex'
-          }  text-center flex-col md:flex-row absolute md:relative bg-black w-full md:max-w-max md:top-0 top-14 md:border-none border-t border-white`}
-        >
-          <li>
-            <Link className="nav-link">Home</Link>
-          </li>
-          <li>
-            <Link className="nav-link">Products</Link>
-          </li>
-          <li>
-            <Link className="nav-link">About</Link>
-          </li>
-          <li>
-            <Link className="nav-link">Contact</Link>
-          </li>
-        </ul>
+
+        <Navigation navExpanded={true} />
       </nav>
     </header>
   )
