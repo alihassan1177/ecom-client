@@ -29,25 +29,27 @@ export default function ProductCard({ name, company, image, id, price }) {
     price: price,
     quantity: 1
   }
+
+  function addItemInCart() {
+    const cartItems = cart.filter((item) => item.id == product.id)
+    if (cartItems.length <= 0) {
+      setCart((items) => [...items, product])
+      increaseTotal(setTotalAmount, price, totalAmount)
+    }
+  }
+
   return (
-    <div className="flex gap-2 flex-col p-3 rounded-md border border-gray-300">
-      <img className="w-full" src={image} alt={name} />
-      <h2 className="font-semibold text-lg">{name}</h2>
-      <h3 className="font-light text-sm">{company}</h3>
-      <div className="flex gap-1">
-        <button
-          onClick={() => {
-            const cartItems = cart.filter((item) => item.id == product.id)
-            if (cartItems.length <= 0) {
-              setCart((items) => [...items, product])
-              increaseTotal(setTotalAmount, price, totalAmount)
-            }
-          }}
-          className="btn w-full"
-        >
-          Add to Cart
-        </button>
-        <button className="btn w-full">Quick View</button>
+    <div title={`${name} - ${company}`} className="flex gap-2 cursor-pointer flex-col overflow-hidden rounded-md border border-gray-300">
+      <img className="w-full h-[200px] object-cover block" src={image} alt={name} />
+      <div className="p-3">
+        <h2 className="font-semibold capitalize truncate text-md">{name}</h2>
+        <h3 className="font-light capitalize text-sm">{company}</h3>
+        <div className="flex gap-1 mt-3">
+          <button onClick={addItemInCart} className="btn w-full">
+            Add to Cart
+          </button>
+          <button className="btn w-full">Quick View</button>
+        </div>
       </div>
     </div>
   )
@@ -60,7 +62,6 @@ ProductCardRow.propTypes = {
   id: PropTypes.number,
   price: PropTypes.number
 }
-
 
 export function ProductCardRow({ name, company, id, image, price }) {
   const { cart, setCart, setTotalAmount, totalAmount, getItemIndex, getItem } = useShoppingCart()
@@ -88,7 +89,7 @@ export function ProductCardRow({ name, company, id, image, price }) {
       key={id}
       className="flex gap-4 justify-center md:justify-start flex-wrap items-center justify-start p-3 rounded-md border border-gray-300"
     >
-      <img className="object-cover max-h-[180px]" src={image} alt={name} />
+      <img className="object-cover w-[280px] max-h-[180px]" src={image} alt={name} />
       <div>
         <h2 className="font-semibold text-lg">{name}</h2>
         <h3 className="font-light text-sm">{company}</h3>
