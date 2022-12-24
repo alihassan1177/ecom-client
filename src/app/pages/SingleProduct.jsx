@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import {useProducts} from "../context/Product.jsx"
+import { useProducts } from '../context/Product.jsx'
 
 export default function SingleProduct() {
-  const {id} = useParams()
-  const {getProductById} = useProducts()
+  const { slug } = useParams()
+  const { getProductBySlug } = useProducts()
+  const [product, setProduct] = useState()
+  const [loading, setLoading] = useState(true)
 
-  const product = getProductById(id)
+  useEffect(()=>{
+    setProduct(getProductBySlug(slug))
+    setLoading(false)
+  }, [])
 
-  console.log(product)
-  return <h1>{product.title}</h1>
+  return <div className="container">{loading ? 'Loading...' : <h1>{product?.title}</h1>}</div>
 }

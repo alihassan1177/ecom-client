@@ -5,9 +5,9 @@ import { useState, useEffect } from 'react'
 import CartContext from './context/Cart'
 import { useProducts } from './context/Product'
 import { MobileNavigation } from './components/Navigation'
-import PropTypes from "prop-types"
-import {Routes, Route} from "react-router-dom"
-import SingleProduct from "./pages/SingleProduct.jsx"
+import PropTypes from 'prop-types'
+import { Routes, Route } from 'react-router-dom'
+import SingleProduct from './pages/SingleProduct.jsx'
 
 export default function App() {
   const { products, addProducts } = useProducts()
@@ -21,7 +21,10 @@ export default function App() {
     const response = await fetch('https://dummyjson.com/products?limit=100')
     const data = await response.json()
     setLoading(false)
-    const productsData = data.products.map(product => Object.assign(product, {slug : product.title.split(" ").join("-")}))
+    const productsData = data.products.map((product) => {
+      const slug = `${product.title}-${product.brand}-${product.category}-${product.id}`.split(" ").join("-").toLowerCase() 
+      return Object.assign(product, { slug: slug })
+    })
     addProducts(productsData)
   }
 
@@ -34,8 +37,8 @@ export default function App() {
       <CartContext>
         <Header />
         <Routes>
-            <Route path="/" element={<ProductsComponent isLoaded={loading}  data={products} />} />
-            <Route path="/product/:id" element={<SingleProduct />} />
+          <Route path="/" element={<ProductsComponent isLoaded={loading} data={products} />} />
+          <Route path="/product/:slug" element={<SingleProduct />} />
         </Routes>
         <MobileNavigation />
       </CartContext>
@@ -44,11 +47,11 @@ export default function App() {
 }
 
 ProductsComponent.propTypes = {
-  isLoaded : PropTypes.any,
-  data : PropTypes.any
+  isLoaded: PropTypes.any,
+  data: PropTypes.any
 }
 
-function ProductsComponent({isLoaded, data}) {
+function ProductsComponent({ isLoaded, data }) {
   return (
     <div className="mt-3 md:container md:h-full flex-1 overflow-y-auto">
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2">
@@ -63,6 +66,7 @@ function ProductsComponent({isLoaded, data}) {
                 key={index}
                 image={product.thumbnail}
                 price={product.price}
+                slug={product.slug}
               />
             )
           })}

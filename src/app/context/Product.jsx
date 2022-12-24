@@ -18,16 +18,36 @@ export default function ProductContext({ children }) {
 
   function addProducts(data) {
     setProducts(() => [...data])
-    localStorage.setItem(PRODUCTS_KEY, JSON.stringify(data))
+    //    localStorage.setItem(PRODUCTS_KEY, JSON.stringify(data))
   }
 
-  function getProductById(id){
-    for(let i = 0; i < products.length; i++){
-      if(products[i].id == id){
+  // Refractor this and the getProductBySlug Method
+  function getProductById(id) {
+    for (let i = 0; i < products.length; i++) {
+      if (products[i].id == id) {
         return products[i]
       }
     }
   }
 
-  return <context.Provider value={{ products, addProducts, getProductById }}>{children}</context.Provider>
+  function getProductBySlug(slug) {
+    for (let i = 0; i < products.length; i++) {
+      if (products[i].slug == slug) {
+        return products[i]
+      }
+    }
+  }
+
+  return (
+    <context.Provider
+      value={{
+        products,
+        addProducts,
+        getProductById,
+        getProductBySlug
+      }}
+    >
+      {children}
+    </context.Provider>
+  )
 }

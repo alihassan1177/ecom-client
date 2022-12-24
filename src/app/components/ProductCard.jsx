@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
 import { useShoppingCart } from '../context/Cart.jsx'
 import PropTypes from 'prop-types'
@@ -18,12 +18,12 @@ ProductCard.propTypes = {
   company: PropTypes.string,
   image: PropTypes.string,
   id: PropTypes.number,
-  price: PropTypes.number
+  price: PropTypes.number,
+  slug : PropTypes.string
 }
 
-export default function ProductCard({ name, company, image, id, price }) {
+export default function ProductCard({ name, company, image, id, price,slug }) {
   const { setCart, cart, totalAmount, setTotalAmount } = useShoppingCart()
-  const { getProductById } = useProducts()
   const product = {
     name: name,
     company: company,
@@ -41,10 +41,6 @@ export default function ProductCard({ name, company, image, id, price }) {
     }
   }
 
-  function quickView() {
-    const product = getProductById(id)
-    console.log(product)
-  }
 
   return (
     <div
@@ -59,7 +55,7 @@ export default function ProductCard({ name, company, image, id, price }) {
           <button onClick={addItemInCart} className="btn w-full">
             Add to Cart
           </button>
-          <Link to={`/product/${id}`} className="w-full btn text-center">View</Link>
+          <Link to={`/product/${slug}`} className="w-full btn text-center">View</Link>
         </div>
       </div>
     </div>
