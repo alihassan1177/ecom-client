@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react'
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
 import { useShoppingCart } from '../context/Cart.jsx'
 import PropTypes from 'prop-types'
+import { useProducts } from '../context/Product.jsx'
+import { Link } from 'react-router-dom'
 
 function increaseTotal(setTotalAmount, price, totalAmount) {
   setTotalAmount(price + totalAmount)
@@ -21,6 +23,7 @@ ProductCard.propTypes = {
 
 export default function ProductCard({ name, company, image, id, price }) {
   const { setCart, cart, totalAmount, setTotalAmount } = useShoppingCart()
+  const { getProductById } = useProducts()
   const product = {
     name: name,
     company: company,
@@ -38,9 +41,17 @@ export default function ProductCard({ name, company, image, id, price }) {
     }
   }
 
+  function quickView() {
+    const product = getProductById(id)
+    console.log(product)
+  }
+
   return (
-    <div title={`${name} - ${company}`} className="flex gap-2 cursor-pointer flex-col overflow-hidden rounded-md border border-gray-300">
-      <img className="w-full h-[200px] object-cover block" src={image} alt={name} />
+    <div
+      title={`${name} - ${company}`}
+      className="flex gap-2 cursor-pointer flex-col overflow-hidden rounded-md border border-gray-300"
+    >
+      <img loading="lazy" className="w-full h-[200px] object-cover block" src={image} alt={name} />
       <div className="p-3">
         <h2 className="font-semibold capitalize truncate text-md">{name}</h2>
         <h3 className="font-light capitalize text-sm">{company}</h3>
@@ -48,7 +59,7 @@ export default function ProductCard({ name, company, image, id, price }) {
           <button onClick={addItemInCart} className="btn w-full">
             Add to Cart
           </button>
-          <button className="btn w-full">Quick View</button>
+          <Link to={`/product/${id}`} className="w-full btn text-center">View</Link>
         </div>
       </div>
     </div>

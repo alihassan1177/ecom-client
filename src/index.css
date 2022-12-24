@@ -4,7 +4,7 @@
 
 @layer base {
   * {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Montserrat", sans-serif;
   }
   body {
     overflow-x: hidden;
