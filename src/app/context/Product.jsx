@@ -38,6 +38,7 @@ export default function ProductContext({ children }) {
       .map((product) => product.category)
       .filter((value, index, self) => self.indexOf(value) === index)
     setCategories(() => [...categories])
+    setLoading(false)
   }
   
   function filterByCategory(category){
@@ -46,12 +47,11 @@ export default function ProductContext({ children }) {
 
   async function getProducts() {
     if (products.length > 0) {
-      setLoading(false)
+      getCategories(products)
       return
     }
     const response = await fetch('https://dummyjson.com/products?limit=100')
     const data = await response.json()
-    setLoading(false)
     const productsData = data.products.map((product) => {
       const slug = `${product.title}-${product.brand}-${product.category}-${product.id}`
         .split(' ')

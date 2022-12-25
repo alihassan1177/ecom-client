@@ -11,10 +11,8 @@ import SingleProduct from './pages/SingleProduct.jsx'
 
 export default function App() {
   const { getProducts, loading, products, categories, filterByCategory } = useProducts()
+  
 
-  if (categories != undefined) {
-    console.log(filterByCategory(categories[0]))
-  }
   useEffect(() => {
     getProducts()
   }, [])
@@ -24,7 +22,7 @@ export default function App() {
       <CartContext>
         <Header />
         <Routes>
-          <Route path="/" element={<ProductsComponent isLoaded={loading} data={products} />} />
+          <Route path="/" element={<ProductsComponent isLoaded={loading} data={filterByCategory("smartphones")} />} />
           <Route path="/product/:slug" element={<SingleProduct />} />
         </Routes>
         <MobileNavigation />
