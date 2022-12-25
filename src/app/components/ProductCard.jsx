@@ -2,7 +2,6 @@ import React from 'react'
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
 import { useShoppingCart } from '../context/Cart.jsx'
 import PropTypes from 'prop-types'
-import { useProducts } from '../context/Product.jsx'
 import { Link } from 'react-router-dom'
 
 function increaseTotal(setTotalAmount, price, totalAmount) {
@@ -51,6 +50,7 @@ export default function ProductCard({ name, company, image, id, price,slug }) {
       <div className="p-3">
         <h2 className="font-semibold capitalize truncate text-md">{name}</h2>
         <h3 className="font-light capitalize text-sm">{company}</h3>
+        <h3 className="font-semibold capitalize text-2xl">${price}</h3>
         <div className="flex gap-1 mt-3">
           <button onClick={addItemInCart} className="btn w-full">
             Add to Cart

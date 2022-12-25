@@ -16,19 +16,32 @@ export default function ProductContext({ children }) {
   const localData = JSON.parse(localStorage.getItem(PRODUCTS_KEY))
   const [products, setProducts] = useState(localData || [])
   const [loading, setLoading] = useState(true)
+  const [categories, setCategories] = useState()
 
   function addProducts(data) {
     setProducts(() => [...data])
+    getCategories(data)
     //    localStorage.setItem(PRODUCTS_KEY, JSON.stringify(data))
   }
 
-  // Keep now maybe delete this method later if no usecase 
+  // Keep now maybe delete this method later if no usecase
   function getProductById(id) {
     for (let i = 0; i < products.length; i++) {
       if (products[i].id == id) {
         return products[i]
       }
     }
+  }
+
+  function getCategories(data) {
+    const categories = data
+      .map((product) => product.category)
+      .filter((value, index, self) => self.indexOf(value) === index)
+    setCategories(() => [...categories])
+  }
+  
+  function filterByCategory(category){
+    return products.filter((value) =>  value.category == category)
   }
 
   async function getProducts() {
@@ -40,30 +53,31 @@ export default function ProductContext({ children }) {
     const data = await response.json()
     setLoading(false)
     const productsData = data.products.map((product) => {
-      const slug = `${product.title}-${product.brand}-${product.category}-${product.id}`.split(" ").join("-").toLowerCase() 
+      const slug = `${product.title}-${product.brand}-${product.category}-${product.id}`
+        .split(' ')
+        .join('-')
+        .toLowerCase()
       return Object.assign(product, { slug: slug })
     })
     addProducts(productsData)
   }
 
   async function getProductBySlug(slug) {
-
-    let data;
+    let data
     for (let i = 0; i < products.length; i++) {
       if (products[i].slug == slug) {
         data = products[i]
-        return data 
+        return data
       }
     }
 
-    const id = slug.split("-")[4]
-    
-    if(data == undefined){
+    const id = slug.split('-')[4]
+
+    if (data == undefined) {
       const response = await fetch(`https://dummyjson.com/products/${id}`)
       data = await response.json()
       return data
     }
-
   }
 
   return (
@@ -74,7 +88,9 @@ export default function ProductContext({ children }) {
         getProductById,
         getProductBySlug,
         loading,
-        getProducts
+        getProducts,
+        categories,
+        filterByCategory
       }}
     >
       {children}

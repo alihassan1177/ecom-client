@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './components/Header'
 import ProductCard from './components/ProductCard.jsx'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import CartContext from './context/Cart'
 import { useProducts } from './context/Product'
 import { MobileNavigation } from './components/Navigation'
@@ -10,8 +10,11 @@ import { Routes, Route } from 'react-router-dom'
 import SingleProduct from './pages/SingleProduct.jsx'
 
 export default function App() {
-  const { getProducts, loading, products } = useProducts()
+  const { getProducts, loading, products, categories, filterByCategory } = useProducts()
 
+  if (categories != undefined) {
+    console.log(filterByCategory(categories[0]))
+  }
   useEffect(() => {
     getProducts()
   }, [])
