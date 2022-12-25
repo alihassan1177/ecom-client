@@ -10,23 +10,7 @@ import { Routes, Route } from 'react-router-dom'
 import SingleProduct from './pages/SingleProduct.jsx'
 
 export default function App() {
-  const { products, addProducts } = useProducts()
-  const [loading, setLoading] = useState(true)
-
-  async function getProducts() {
-    if (products.length > 0) {
-      setLoading(false)
-      return
-    }
-    const response = await fetch('https://dummyjson.com/products?limit=100')
-    const data = await response.json()
-    setLoading(false)
-    const productsData = data.products.map((product) => {
-      const slug = `${product.title}-${product.brand}-${product.category}-${product.id}`.split(" ").join("-").toLowerCase() 
-      return Object.assign(product, { slug: slug })
-    })
-    addProducts(productsData)
-  }
+  const { getProducts, loading, products } = useProducts()
 
   useEffect(() => {
     getProducts()

@@ -8,9 +8,14 @@ export default function SingleProduct() {
   const [product, setProduct] = useState()
   const [loading, setLoading] = useState(true)
 
-  useEffect(()=>{
-    setProduct(getProductBySlug(slug))
+  async function getProduct() {
+    const productData = await getProductBySlug(slug)
+    setProduct(productData)
     setLoading(false)
+  }
+
+  useEffect(() => {
+    getProduct()
   }, [])
 
   return <div className="container">{loading ? 'Loading...' : <h1>{product?.title}</h1>}</div>
