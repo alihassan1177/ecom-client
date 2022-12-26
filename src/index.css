@@ -16,13 +16,16 @@
 
 @layer components {
   .nav-link {
-    @apply block p-4 hover:bg-white hover:text-black transition-colors;
+    @apply block uppercase font-medium text-sm p-4 text-gray-700 hover:text-black transition-colors;
+  }
+  .nav-link.active{
+    @apply text-black font-semibold
   }
   .nav-link.mobile{
     @apply h-full grid place-items-center
   }
   .btn {
-    @apply p-2 bg-black hover:opacity-80 transition-all text-white rounded-md;
+    @apply py-2 px-3 text-sm border border-black font-semibold uppercase hover:bg-black transition-all text-black hover:text-white rounded-md;
   }
   .cart-btn::after {
     content: attr(data-total);

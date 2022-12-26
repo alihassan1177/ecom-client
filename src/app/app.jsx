@@ -12,7 +12,6 @@ import SingleProduct from './pages/SingleProduct.jsx'
 export default function App() {
   const { getProducts, loading, products, categories, filterByCategory } = useProducts()
   
-
   useEffect(() => {
     getProducts()
   }, [])
@@ -22,7 +21,7 @@ export default function App() {
       <CartContext>
         <Header />
         <Routes>
-          <Route path="/" element={<ProductsComponent isLoaded={loading} data={filterByCategory("smartphones")} />} />
+          <Route path="/" element={<ProductsComponent isLoaded={loading} data={products}/>} />
           <Route path="/product/:slug" element={<SingleProduct />} />
         </Routes>
         <MobileNavigation />
@@ -39,7 +38,7 @@ ProductsComponent.propTypes = {
 function ProductsComponent({ isLoaded, data }) {
   return (
     <div className="mt-3 md:container md:h-full flex-1 overflow-y-auto">
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
         {isLoaded
           ? 'Loading'
           : data.map((product, index) => {

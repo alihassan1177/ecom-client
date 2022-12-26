@@ -3,8 +3,9 @@ import Navigation from './Navigation.jsx'
 import PropTypes from 'prop-types'
 import { ProductCardRow } from './ProductCard.jsx'
 import { Link } from 'react-router-dom'
-import { FaTimes, FaShoppingCart } from 'react-icons/fa'
+import { FaTimes } from 'react-icons/fa'
 import { context as CartContext } from '../context/Cart.jsx'
+import { AiOutlineShoppingCart } from 'react-icons/ai'
 
 export default function Header() {
   const [cartExpanded, setCartExpanded] = useState(false)
@@ -17,23 +18,22 @@ export default function Header() {
   }
 
   return (
-    <header className="py-4 px-3 md:p-0 bg-black">
-      <nav className="flex text-white items-center gap-6 justify-between">
-        <Link className="block flex-1 ml-3 font-bold text-2xl" to="/">
-          Boldo.
-        </Link>
+    <header className="py-8 px-3">
+      <nav className="flex container text-black items-center gap-6 justify-between">
+          <Link className="block flex-1 font-bold uppercase text-3xl" to="/">
+            Boldo.
+          </Link>
+          <Navigation />
         <button
           onClick={() => {
             setCartExpanded(true)
           }}
           data-total={cart.length}
-          className="cart-btn relative text-2xl block"
+          className="cart-btn relative text-3xl block"
         >
-          <FaShoppingCart />
+          <AiOutlineShoppingCart />
         </button>
         <Cart cartOpen={cartExpanded} setCart={setCartExpanded} />
-
-        <Navigation  />
       </nav>
     </header>
   )

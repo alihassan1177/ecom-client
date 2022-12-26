@@ -18,10 +18,10 @@ ProductCard.propTypes = {
   image: PropTypes.string,
   id: PropTypes.number,
   price: PropTypes.number,
-  slug : PropTypes.string
+  slug: PropTypes.string
 }
 
-export default function ProductCard({ name, company, image, id, price,slug }) {
+export default function ProductCard({ name, company, image, id, price, slug }) {
   const { setCart, cart, totalAmount, setTotalAmount } = useShoppingCart()
   const product = {
     name: name,
@@ -40,25 +40,24 @@ export default function ProductCard({ name, company, image, id, price,slug }) {
     }
   }
 
-
   return (
-    <div
+    <Link
+      to={`/product/${slug}`}
       title={`${name} - ${company}`}
-      className="flex gap-2 cursor-pointer flex-col overflow-hidden rounded-md border border-gray-300"
+      className="flex gap-2 transition-all cursor-pointer flex-col overflow-hidden rounded-md border border-gray-300"
     >
-      <img loading="lazy" className="w-full h-[200px] object-cover block" src={image} alt={name} />
-      <div className="p-3">
-        <h2 className="font-semibold capitalize truncate text-md">{name}</h2>
-        <h3 className="font-light capitalize text-sm">{company}</h3>
-        <h3 className="font-semibold capitalize text-2xl">${price}</h3>
-        <div className="flex gap-1 mt-3">
-          <button onClick={addItemInCart} className="btn w-full">
+      <img loading="lazy" className="w-full h-[200px] object-cover m-0 p-0 block" src={image} alt={name} />
+      <div className="p-4 border-t -mt-2 border-gray-300">
+        <h3 className="font-light capitalize text-[13px]">{company}</h3>
+        <h2 className="font-semibold capitalize truncate text-lg">{name}</h2>
+        <div className="flex justify-between items-center mt-3">
+          <h3 className="font-semibold capitalize text-3xl">${price}</h3>
+          <button onClick={addItemInCart} className="btn max-w-max">
             Add to Cart
           </button>
-          <Link to={`/product/${slug}`} className="w-full btn text-center">View</Link>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 

@@ -1,27 +1,36 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 export default function Navigation() {
   return (
     <ul
-      className={`md:items-center md:flex hidden flex-row md:relative bg-black md:max-w-max md:border-none`}
+      className={`md:items-center md:flex hidden flex-row md:relative md:max-w-max md:border-none`}
     >
       <li>
-        <Link className="nav-link">Home</Link>
+        <NavLink to="/" className="nav-link">
+          Home
+        </NavLink>
       </li>
       <li>
-        <Link className="nav-link">Products</Link>
+        <NavLink to="/products" className="nav-link">
+          Products
+        </NavLink>
       </li>
       <li>
-        <Link className="nav-link">About</Link>
+        <NavLink to="/about" className="nav-link">
+          About
+        </NavLink>
       </li>
       <li>
-        <Link className="nav-link">Contact</Link>
+        <NavLink to="/contact" className="nav-link">
+          Contact
+        </NavLink>
       </li>
     </ul>
   )
 }
+
 Navigation.propTypes = {
   navExpanded: PropTypes.bool
 }
