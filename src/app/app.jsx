@@ -8,25 +8,28 @@ import { MobileNavigation } from './components/Navigation'
 import PropTypes from 'prop-types'
 import { Routes, Route } from 'react-router-dom'
 import SingleProduct from './pages/SingleProduct.jsx'
+import UserContext from './context/User'
 
 export default function App() {
   const { getProducts, loading, products, categories, filterByCategory } = useProducts()
-  
+
   useEffect(() => {
     getProducts()
   }, [])
 
   return (
-    <main className="md:block flex flex-col md:max-h-full max-h-screen overflow-hidden">
-      <CartContext>
-        <Header />
-        <Routes>
-          <Route path="/" element={<ProductsComponent isLoaded={loading} data={products}/>} />
-          <Route path="/product/:slug" element={<SingleProduct />} />
-        </Routes>
-        <MobileNavigation />
-      </CartContext>
-    </main>
+    <UserContext>
+      <main className="md:block flex flex-col md:max-h-full max-h-screen overflow-hidden">
+        <CartContext>
+          <Header />
+          <Routes>
+            <Route path="/" element={<ProductsComponent isLoaded={loading} data={products} />} />
+            <Route path="/product/:slug" element={<SingleProduct />} />
+          </Routes>
+          <MobileNavigation />
+        </CartContext>
+      </main>
+    </UserContext>
   )
 }
 
