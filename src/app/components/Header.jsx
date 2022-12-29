@@ -15,7 +15,7 @@ export default function Header() {
   const { cart } = useContext(CartContext)
   const [authModal, setAuthModal] = useState(false)
 
-  const { isAuthenticated } = useUser()
+  const { isAuthenticated, handleAuth } = useUser()
 
   if (cartExpanded) {
     document.body.style.overflow = 'hidden'
@@ -61,7 +61,14 @@ export default function Header() {
           title={'Connect your Google Account'}
           setShow={setAuthModal}
         >
-          <button className="cursor-pointer rounded-md w-full hover:bg-slate-50 transition-all shadow-md border border-gray-300 font-semibold p-3 flex gap-3 items-center justify-center">
+          <button
+            onClick={async() => {
+              const status = await handleAuth()
+              console.log(status)
+              setAuthModal(!status)
+            }}
+            className="cursor-pointer rounded-md w-full hover:bg-slate-50 transition-all shadow-md border border-gray-300 font-semibold p-3 flex gap-3 items-center justify-center"
+          >
             <img className="w-10" alt="Google" src={GoogleIcon} />
             <span>Continue with Google</span>
           </button>
