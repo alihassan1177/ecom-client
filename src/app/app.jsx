@@ -8,28 +8,31 @@ import { MobileNavigation } from './components/Navigation'
 import PropTypes from 'prop-types'
 import { Routes, Route } from 'react-router-dom'
 import SingleProduct from './pages/SingleProduct.jsx'
-import UserContext from './context/User'
+import UserDashboard from './pages/UserDashboard'
+import { useUser } from './context/User'
+import NotFound from './pages/404'
 
 export default function App() {
-  const { getProducts, loading, products, categories, filterByCategory } = useProducts()
+  const { getProducts, loading, products } = useProducts()
+  const { isAuthenticated } = useUser()
 
   useEffect(() => {
     getProducts()
   }, [])
 
   return (
-    <UserContext>
-      <main className="md:block flex flex-col md:max-h-full max-h-screen overflow-hidden">
-        <CartContext>
-          <Header />
-          <Routes>
-            <Route path="/" element={<ProductsComponent isLoaded={loading} data={products} />} />
-            <Route path="/product/:slug" element={<SingleProduct />} />
-          </Routes>
-          <MobileNavigation />
-        </CartContext>
-      </main>
-    </UserContext>
+    <main className="md:block flex flex-col md:max-h-full max-h-screen overflow-hidden">
+      <CartContext>
+        <Header />
+        <Routes>
+          <Route path="/" element={<ProductsComponent isLoaded={loading} data={products} />} />
+          <Route path="/product/:slug" element={<SingleProduct />} />
+          {isAuthenticated ? <Route path="/user" element={<UserDashboard />} /> : ''}
+          <Route path="*" element={<NotFound/>} />
+        </Routes>
+        <MobileNavigation />
+      </CartContext>
+    </main>
   )
 }
 

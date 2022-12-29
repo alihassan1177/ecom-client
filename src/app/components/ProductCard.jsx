@@ -4,14 +4,6 @@ import { useShoppingCart } from '../context/Cart.jsx'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-function increaseTotal(setTotalAmount, price, totalAmount) {
-  setTotalAmount(price + totalAmount)
-}
-
-function decreaseTotal(setTotalAmount, totalAmount, price) {
-  setTotalAmount(totalAmount - price)
-}
-
 ProductCard.propTypes = {
   name: PropTypes.string,
   company: PropTypes.string,
@@ -22,7 +14,7 @@ ProductCard.propTypes = {
 }
 
 export default function ProductCard({ name, company, image, id, price, slug }) {
-  const { setCart, cart, totalAmount, setTotalAmount } = useShoppingCart()
+  const { addItemInCart } = useShoppingCart()
   const product = {
     name: name,
     company: company,
@@ -32,27 +24,24 @@ export default function ProductCard({ name, company, image, id, price, slug }) {
     quantity: 1
   }
 
-  function addItemInCart() {
-    const cartItems = cart.filter((item) => item.id == product.id)
-    if (cartItems.length <= 0) {
-      setCart((items) => [...items, product])
-      increaseTotal(setTotalAmount, price, totalAmount)
-    }
-  }
-
   return (
     <Link
       to={`/product/${slug}`}
       title={`${name} - ${company}`}
       className="flex gap-2 transition-all cursor-pointer flex-col overflow-hidden rounded-md border border-gray-300"
     >
-      <img loading="lazy" className="w-full h-[200px] object-cover m-0 p-0 block" src={image} alt={name} />
+      <img
+        loading="lazy"
+        className="w-full h-[200px] object-cover m-0 p-0 block"
+        src={image}
+        alt={name}
+      />
       <div className="p-4 border-t -mt-2 border-gray-300">
         <h3 className="font-light capitalize text-[13px]">{company}</h3>
         <h2 className="font-semibold capitalize truncate text-lg">{name}</h2>
         <div className="flex justify-between items-center mt-3">
           <h3 className="font-semibold capitalize text-3xl">${price}</h3>
-          <button onClick={addItemInCart} className="btn max-w-max">
+          <button onClick={() => addItemInCart(product)} className="btn max-w-max">
             Add to Cart
           </button>
         </div>
@@ -70,26 +59,18 @@ ProductCardRow.propTypes = {
 }
 
 export function ProductCardRow({ name, company, id, image, price }) {
-  const { cart, setCart, setTotalAmount, totalAmount, getItemIndex, getItem } = useShoppingCart()
+  const {
+    setTotalAmount,
+    totalAmount,
+    getItem,
+    removeItemFromCart,
+    increaseQuantity,
+    decreaseQuantity,
+    increaseTotal,
+    decreaseTotal
+  } = useShoppingCart()
   const item = getItem(id)
-  function removeItemFromCart() {
-    const index = getItemIndex(id)
-    setTotalAmount(totalAmount - item.quantity * price)
-    cart.splice(index, 1)
-
-    setCart(() => [...cart])
-  }
-
-  function increaseQuantity() {
-    item.quantity++
-    setCart(() => [...cart])
-  }
-
-  function decreaseQuantity() {
-    item.quantity--
-    setCart(() => [...cart])
-  }
-
+  
   return (
     <div
       key={id}
@@ -110,7 +91,7 @@ export function ProductCardRow({ name, company, id, image, price }) {
               if (item.quantity <= 1) {
                 item.quantity = 1
               } else {
-                decreaseQuantity()
+                decreaseQuantity(item)
                 decreaseTotal(setTotalAmount, totalAmount, price)
               }
             }}
@@ -121,14 +102,14 @@ export function ProductCardRow({ name, company, id, image, price }) {
           <button
             className="border p-1 rounded-md"
             onClick={() => {
-              increaseQuantity()
+              increaseQuantity(item)
               increaseTotal(setTotalAmount, price, totalAmount)
             }}
           >
             <AiOutlinePlus />
           </button>
         </div>
-        <button onClick={removeItemFromCart} className="btn">
+        <button onClick={() => removeItemFromCart(id, item, price)} className="btn">
           Remove from Cart
         </button>
       </div>

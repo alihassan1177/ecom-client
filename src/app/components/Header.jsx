@@ -30,16 +30,22 @@ export default function Header() {
           Boldo.
         </Link>
         <Navigation />
-        <button
-          onClick={() => {
-            if (isAuthenticated == false) {
-              setAuthModal(true)
-            }
-          }}
-          className="relative text-3xl block"
-        >
-          <AiOutlineUser />
-        </button>
+        {isAuthenticated ? (
+          <Link className="relative text-3xl block" to="/user">
+            <AiOutlineUser />
+          </Link>
+        ) : (
+          <button
+            onClick={() => {
+              if (isAuthenticated == false) {
+                setAuthModal(true)
+              }
+            }}
+            className="relative text-3xl block"
+          >
+            <AiOutlineUser />
+          </button>
+        )}
         <button
           onClick={() => {
             setCartExpanded(true)
