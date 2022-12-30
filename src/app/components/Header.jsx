@@ -66,7 +66,6 @@ export default function Header() {
           <button
             onClick={async () => {
               const status = await handleAuth()
-              console.log(status)
               setAuthModal(!status)
               navigate('/user')
             }}

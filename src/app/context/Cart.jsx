@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useUser } from './User'
-import {db, SALES_COLLECTION_KEY} from '../firebase.js'
+import { db, SALES_COLLECTION_KEY } from '../firebase.js'
 export const context = React.createContext()
 
 export function useShoppingCart() {
@@ -18,7 +18,7 @@ export default function CartContext({ children }) {
   const localCart = JSON.parse(localStorage.getItem(CART_KEY))
   const [cart, setCart] = useState(localCart || [])
   const [totalAmount, setTotalAmount] = useState(getTotalAmount())
-  const {user} = useUser()
+  const { user } = useUser()
 
   function getTotalAmount() {
     if (cart.length > 0) {
@@ -41,13 +41,28 @@ export default function CartContext({ children }) {
     }
   }
 
-  async function checkout(uid){
-    const data = {cart : cart, total : totalAmount, user : uid || user.uid, timestamp : serverTimestamp()}
+  async function checkout(uid) {
+    const data = {
+      cart: cart,
+      total: totalAmount,
+      user: uid || user.uid,
+      timestamp: serverTimestamp()
+    }
     const response = await addDoc(collection(db, SALES_COLLECTION_KEY), data)
     console.log(response)
-    setCart(()=>[])
+    setCart(() => [])
     setTotalAmount(0)
     localStorage.setItem(CART_KEY, JSON.stringify([]))
+    const secureToken = import.meta.env.VITE_EMAIL_TOKEN
+    console.log(secureToken)
+    const config = {
+      From: 'thealihassan.dev@gmail.com',
+      To: user.email,
+      SecureToken: secureToken,
+      Subject: 'You made a Purchase on Boldo Store, Here are the details',
+      Body: `Total Purchase Amount : ${getTotalAmount()}`
+    }
+    window.Email.send(config).then((message) => alert(message))
   }
 
   function addItemInCart(product) {
