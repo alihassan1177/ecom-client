@@ -54,7 +54,6 @@ export default function CartContext({ children }) {
     setTotalAmount(0)
     localStorage.setItem(CART_KEY, JSON.stringify([]))
     const secureToken = import.meta.env.VITE_EMAIL_TOKEN
-    console.log(secureToken)
     const config = {
       From: 'thealihassan.dev@gmail.com',
       To: user.email,
