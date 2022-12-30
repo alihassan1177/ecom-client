@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useUser } from './User'
 import {db, SALES_COLLECTION_KEY} from '../firebase.js'
 export const context = React.createContext()
@@ -42,7 +42,7 @@ export default function CartContext({ children }) {
   }
 
   async function checkout(uid){
-    const data = {cart : cart, total : totalAmount, user : uid || user.uid}
+    const data = {cart : cart, total : totalAmount, user : uid || user.uid, timestamp : serverTimestamp()}
     const response = await addDoc(collection(db, SALES_COLLECTION_KEY), data)
     console.log(response)
     setCart(()=>[])
