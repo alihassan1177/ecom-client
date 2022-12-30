@@ -18,7 +18,6 @@ export default function CartContext({ children }) {
   const localCart = JSON.parse(localStorage.getItem(CART_KEY))
   const [cart, setCart] = useState(localCart || [])
   const [totalAmount, setTotalAmount] = useState(getTotalAmount())
-  const { user } = useUser()
 
   function getTotalAmount() {
     if (cart.length > 0) {
@@ -41,11 +40,11 @@ export default function CartContext({ children }) {
     }
   }
 
-  async function checkout(uid) {
+  async function checkout(userData) {
     const data = {
       cart: cart,
       total: totalAmount,
-      user: uid || user.uid,
+      user: userData.uid,
       timestamp: serverTimestamp()
     }
     const response = await addDoc(collection(db, SALES_COLLECTION_KEY), data)
@@ -56,7 +55,7 @@ export default function CartContext({ children }) {
     const secureToken = import.meta.env.VITE_EMAIL_TOKEN
     const config = {
       From: 'thealihassan.dev@gmail.com',
-      To: user.email,
+      To: userData.email,
       SecureToken: secureToken,
       Subject: 'You made a Purchase on Boldo Store, Here are the details',
       Body: `Total Purchase Amount : ${getTotalAmount()}`

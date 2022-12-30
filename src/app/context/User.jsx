@@ -27,9 +27,9 @@ export default function UserContext({ children }) {
       setUser(userData)
       localStorage.setItem(USER_KEY, JSON.stringify(userData))
       setIsAuthenticated(true)
-      return { status: true, uid: userData.uid }
+      return { status: true, userData: userData }
     } catch (e) {
-      return { status: false, uid: null }
+      return { status: false, userData: null }
     }
   }
 

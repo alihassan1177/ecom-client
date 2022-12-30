@@ -85,7 +85,7 @@ function Cart({ cartOpen, setCart }) {
   const { cart, totalAmount, checkout } = useShoppingCart()
   const [authModal, setAuthModal] = useState(false)
 
-  const { isAuthenticated, handleAuth } = useUser()
+  const { isAuthenticated, handleAuth, user } = useUser()
 
   return (
     <div className={cartOpen ? 'block' : 'hidden'}>
@@ -128,7 +128,7 @@ function Cart({ cartOpen, setCart }) {
                 const result = await handleAuth()
                 console.log(result)
                 setAuthModal(!result.status)
-                checkout(result.uid)
+                checkout(result.userData)
               }}
               className="cursor-pointer rounded-md w-full hover:bg-slate-50 transition-all shadow-md border border-gray-300 font-semibold p-3 flex gap-3 items-center justify-center"
             >
@@ -140,7 +140,7 @@ function Cart({ cartOpen, setCart }) {
           <button
             onClick={() => {
               if (isAuthenticated == true) {
-                checkout()
+                checkout(user)
               } else {
                 setAuthModal(true)
               }
