@@ -2,8 +2,10 @@ import { initializeApp } from "firebase/app";
 import {getAuth, signInWithPopup, GoogleAuthProvider} from "firebase/auth"
 import {getFirestore} from 'firebase/firestore'
 
+console.log(import.meta.env.VITE_FIREBASE_KEY)
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCXYGJZjTF_qNkuxhTVyJMnPJtyCu5MDVk",
+  apiKey: import.meta.env.VITE_FIREBASE_KEY,
   authDomain: "ecom-client-4bcf4.firebaseapp.com",
   projectId: "ecom-client-4bcf4",
   storageBucket: "ecom-client-4bcf4.appspot.com",

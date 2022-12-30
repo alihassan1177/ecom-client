@@ -34,7 +34,7 @@ export default function UserContext({ children }) {
   function logout(){
     setIsAuthenticated(false)
     setUser({})
-    localStorage.setItem(USER_KEY, JSON.stringify({}))
+    localStorage.removeItem(USER_KEY)
   }
 
   return (
