@@ -65,7 +65,8 @@ export default function ProductContext({ children }) {
       }
     }
 
-    const id = slug.split('-')[4]
+    const slugParts = slug.split('-')
+    const id = slugParts[slugParts.length - 1]
 
     if (data == undefined) {
       const response = await fetch(`https://dummyjson.com/products/${id}`)

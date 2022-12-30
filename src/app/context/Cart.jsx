@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
-
+import { addDoc, collection } from 'firebase/firestore'
+import { useUser } from './User'
+import {db, SALES_COLLECTION_KEY} from '../firebase.js'
 export const context = React.createContext()
 
 export function useShoppingCart() {
@@ -16,6 +18,7 @@ export default function CartContext({ children }) {
   const localCart = JSON.parse(localStorage.getItem(CART_KEY))
   const [cart, setCart] = useState(localCart || [])
   const [totalAmount, setTotalAmount] = useState(getTotalAmount())
+  const {user} = useUser()
 
   function getTotalAmount() {
     if (cart.length > 0) {
@@ -36,6 +39,15 @@ export default function CartContext({ children }) {
         return i
       }
     }
+  }
+
+  async function checkout(uid){
+    const data = {cart : cart, total : totalAmount, user : uid || user.uid}
+    const response = await addDoc(collection(db, SALES_COLLECTION_KEY), data)
+    console.log(response)
+    setCart(()=>[])
+    setTotalAmount(0)
+    localStorage.setItem(CART_KEY, JSON.stringify([]))
   }
 
   function addItemInCart(product) {
@@ -94,7 +106,8 @@ export default function CartContext({ children }) {
         decreaseTotal,
         increaseQuantity,
         decreaseQuantity,
-        removeItemFromCart
+        removeItemFromCart,
+        checkout
       }}
     >
       {children}
