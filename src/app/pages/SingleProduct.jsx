@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useProducts } from '../context/Product.jsx'
+import {motion} from "framer-motion"
 
 export default function SingleProduct() {
   const { slug } = useParams()
@@ -18,5 +19,10 @@ export default function SingleProduct() {
     getProduct()
   }, [])
 
-  return <div className="container">{loading ? 'Loading...' : <h1>{product?.title}</h1>}</div>
+  return <motion.div 
+   initial={{opacity : 0}}
+      animate={{opacity : 1}}
+      transition={{delay : 0.1}}
+      exit={{opacity : 0}}
+    className="container">{loading ? 'Loading...' : <h1>{product?.title}</h1>}</motion.div>
 }
