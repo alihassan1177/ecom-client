@@ -13,9 +13,10 @@ import { useUser } from './context/User'
 import NotFound from './pages/404'
 import About from './pages/About'
 import Contact from './pages/Contact'
-import Products from './pages/Products' 
-import {AnimatePresence, motion} from "framer-motion"
-import {PageTransition} from "./utils.js"
+import Products from './pages/Products'
+import { AnimatePresence, motion } from "framer-motion"
+import Design from './pages/design'
+import "./design/index.css"
 
 export default function App() {
   const { getProducts, loading, products } = useProducts()
@@ -31,15 +32,16 @@ export default function App() {
       <CartContext>
         <Header />
         <AnimatePresence>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<ProductsComponent isLoaded={loading} data={products} />} />
-          <Route path="/product/:slug" element={<SingleProduct />} />
-          <Route path="/about" element={<About/>} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/Products" element={<Products />} />
-          {isAuthenticated ? <Route path="/user" element={<UserDashboard />} /> : ''}
-          <Route path="*" element={<NotFound/>} />
-        </Routes>
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<ProductsComponent isLoaded={loading} data={products} />} />
+            <Route path="/product/:slug" element={<SingleProduct />} />
+            <Route path='/design' element={<Design />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/Products" element={<Products />} />
+            {isAuthenticated ? <Route path="/user" element={<UserDashboard />} /> : ''}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </AnimatePresence>
         <MobileNavigation />
       </CartContext>
@@ -54,11 +56,11 @@ ProductsComponent.propTypes = {
 
 function ProductsComponent({ isLoaded, data }) {
   return (
-    <motion.div 
-      initial={{opacity : 0}}
-      animate={{opacity : 1 }}
-      exit={{opacity : 0, y : 30}}
-     className="mt-3 md:container md:h-full flex-1 overflow-y-auto">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, y: 30 }}
+      className="mt-3 md:container md:h-full flex-1 overflow-y-auto">
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
         {isLoaded
           ? 'Loading'

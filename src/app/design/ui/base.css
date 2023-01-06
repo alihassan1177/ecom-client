@@ -1,0 +1,13 @@
+@layer base {
+  * {
+    font-family: "Montserrat", sans-serif;
+  }
+  body {
+    overflow-x: hidden;
+  }
+  .container {
+    @apply mx-auto px-3;
+  }
+}
+
+
