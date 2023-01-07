@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
-import { useUser } from './User'
 import { db, SALES_COLLECTION_KEY } from '../firebase.js'
 export const context = React.createContext()
 

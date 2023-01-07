@@ -41,7 +41,7 @@ export default function ProductCard({ name, company, image, id, price, slug }) {
         <h2 className="font-semibold capitalize truncate text-lg">{name}</h2>
         <div className="flex justify-between items-center mt-3">
           <h3 className="font-semibold capitalize text-3xl">${price}</h3>
-          <button onClick={() => addItemInCart(product)} className="btn max-w-max">
+          <button className='btn secondary' onClick={()=>addItemInCart(product)} >
             Add to Cart
           </button>
         </div>
@@ -109,7 +109,7 @@ export function ProductCardRow({ name, company, id, image, price }) {
             <AiOutlinePlus />
           </button>
         </div>
-        <button onClick={() => removeItemFromCart(id, item, price)} className="btn">
+        <button onClick={()=>removeItemFromCart(id, item, price)} className="btn secondary">
           Remove from Cart
         </button>
       </div>

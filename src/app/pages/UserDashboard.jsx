@@ -30,7 +30,7 @@ export default function UserDashboard() {
           logout()
           navigate('/')
         }}
-        className="btn"
+        className="btn secondary"
       >
         Logout
       </button>

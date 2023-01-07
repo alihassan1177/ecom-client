@@ -145,7 +145,7 @@ function Cart({ cartOpen, setCart }) {
                 setAuthModal(true)
               }
             }}
-            className="btn mt-3"
+            className="btn secondary mt-3"
           >
             Checkout
           </button>
