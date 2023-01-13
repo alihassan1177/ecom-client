@@ -22,6 +22,7 @@ export default function ProductContext({ children }) {
 
   function addProducts(data) {
     setProducts(() => [...data])
+    console.log(data[0])
     getCategories(data)
     // localStorage.setItem(PRODUCTS_KEY, JSON.stringify(data))
   }

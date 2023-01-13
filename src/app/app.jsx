@@ -17,6 +17,7 @@ import Products from './pages/Products'
 import { AnimatePresence, motion } from "framer-motion"
 import Design from './pages/design'
 import "./design/index.css"
+import Hero from './components/Hero'
 
 export default function App() {
   const { getProducts, loading, products } = useProducts()
