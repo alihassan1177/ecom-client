@@ -1,8 +1,0 @@
-@layer components {
-  .slide {
-    @apply absolute inset-0 bg-cover bg-no-repeat;
-  }
-  .slide::after{
-    @apply absolute inset-0 bg-black opacity-50
-  }
-}

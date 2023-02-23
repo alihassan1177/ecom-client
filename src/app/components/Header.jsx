@@ -1,15 +1,96 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Navigation from './Navigation.jsx'
 import PropTypes from 'prop-types'
 import { ProductCardRow } from './ProductCard.jsx'
 import { Link } from 'react-router-dom'
 import { FaTimes } from 'react-icons/fa'
 import { context as CartContext, useShoppingCart } from '../context/Cart.jsx'
-import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
+import { AiOutlineShoppingCart, AiOutlineUser, AiOutlineMenu } from 'react-icons/ai'
 import Modal from './Modal.jsx'
 import GoogleIcon from '/images/google.png'
 import { useUser } from '../context/User.jsx'
 import { useNavigate } from 'react-router-dom'
+
+import { Navbar, Nav, Offcanvas } from 'react-bootstrap'
+
+function BSNavigation() {
+  return (
+    <Nav className="me-auto flex-column flex-md-row">
+      <Nav.Link href="#home">Home</Nav.Link>
+      <Nav.Link href="#link">Link</Nav.Link>
+    </Nav>
+  )
+}
+
+export function BSHeader() {
+  const [cartOpen, setCartOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const { cart } = useContext(CartContext)
+
+  return (
+    <header className="container-fluid">
+      <Navbar expand="md">
+        <Navbar.Brand className="fw-bold" style={{fontSize: "24px"}}  href="#home">Boldo.</Navbar.Brand>
+        <button
+          style={{ fontSize: '30px' }}
+          onClick={() => setMenuOpen(true)}
+          className="btn ms-auto d-md-none"
+        >
+          <AiOutlineMenu />
+        </button>
+        <button
+          style={{ fontSize: '30px' }}
+          data-total={cart.length}
+          onClick={() => setCartOpen(true)}
+          className="btn d-md-none cart-btn"
+        >
+          <AiOutlineShoppingCart />
+        </button>
+        <Navbar.Collapse>
+          <BSNavigation />
+        </Navbar.Collapse>
+        <button
+          style={{ fontSize: '30px' }}
+          data-total={cart.length}
+          onClick={() => setCartOpen(true)}
+          className="btn d-none d-md-block cart-btn"
+        >
+          <AiOutlineShoppingCart />
+        </button>
+      </Navbar>
+      <Offcanvas show={menuOpen} placement="end" onHide={() => setMenuOpen(false)}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Menu</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <BSNavigation />  
+        </Offcanvas.Body>
+      </Offcanvas>
+
+      <Offcanvas show={cartOpen} placement="end" onHide={() => setCartOpen(false)}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Cart</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+             {cart.length > 0 ? cart.map((product, index) => {
+              return (
+                <ProductCardRow
+                  key={index}
+                  name={product.name}
+                  company={product.company}
+                  image={product.image}
+                  id={product.id}
+                  price={product.price}
+                />
+              )
+            }) : <p className='lead text-danger'>No Products in Cart</p>}
+        </Offcanvas.Body>
+      </Offcanvas>
+    </header>
+  )
+}
+
 
 export default function Header() {
   const [cartExpanded, setCartExpanded] = useState(false)
