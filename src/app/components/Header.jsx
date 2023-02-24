@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useRef } from 'react'
 import Navigation from './Navigation.jsx'
 import PropTypes from 'prop-types'
 import { ProductCardRow } from './ProductCard.jsx'
@@ -6,18 +6,30 @@ import { Link } from 'react-router-dom'
 import { FaTimes } from 'react-icons/fa'
 import { context as CartContext, useShoppingCart } from '../context/Cart.jsx'
 import { AiOutlineShoppingCart, AiOutlineUser, AiOutlineMenu } from 'react-icons/ai'
-import Modal from './Modal.jsx'
 import GoogleIcon from '/images/google.png'
 import { useUser } from '../context/User.jsx'
 import { useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
-import { Navbar, Nav, Offcanvas } from 'react-bootstrap'
+import { Navbar, Nav, Offcanvas, Modal } from 'react-bootstrap'
 
-function BSNavigation() {
+BSNavigation.propTypes = {
+  setMenuOpen: PropTypes.any
+}
+
+function BSNavigation({ setMenuOpen }) {
+  function handleRoute() {
+    setMenuOpen(false)
+  }
+
   return (
     <Nav className="me-auto flex-column flex-md-row">
-      <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#link">Link</Nav.Link>
+      <NavLink className="nav-link" onClick={handleRoute} to="/">
+        Home
+      </NavLink>
+      <NavLink className="nav-link" onClick={handleRoute} to="/products">
+        Products
+      </NavLink>
     </Nav>
   )
 }
@@ -26,12 +38,62 @@ export function BSHeader() {
   const [cartOpen, setCartOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
+  const [authModal, setAuthModal] = useState(false)
+  const { isAuthenticated, handleAuth } = useUser()
+
+  const navigate = useNavigate()
   const { cart } = useContext(CartContext)
 
+  const authButton = useRef()
+
+  async function handleGoogleAuth() {
+    const span = authButton.current.children[1]
+    span.innerText = 'Processing...'
+    authButton.current.classList.add('disabled')
+    const status = await handleAuth()
+    authButton.current.classList.remove('disabled')
+    console.log(status)
+    if (status.status == true) {
+      navigate('/user')
+      setAuthModal(false)
+    } else {
+      span.innerText = 'Continue with Google'
+    }
+  }
+
   return (
-    <header className="container-fluid">
+    <header className="container-fluid border-bottom">
+      <Modal centered show={authModal} onHide={() => setAuthModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Connect your Google Account</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ paddingBlock: '24px' }}>
+          <p className="text-center px-3">
+            Signin using your Google Account to keep track of your orders and payments
+          </p>
+          <button
+            ref={authButton}
+            onClick={async () => await handleGoogleAuth()}
+            style={{ width: '100%' }}
+            className="btn btn-md btn-light border"
+          >
+            <img style={{ width: '36px' }} className="me-2" alt="Google" src={GoogleIcon} />
+            <span>Continue with Google</span>
+          </button>
+        </Modal.Body>
+      </Modal>
       <Navbar expand="md">
-        <Navbar.Brand className="fw-bold" style={{fontSize: "24px"}}  href="#home">Boldo.</Navbar.Brand>
+        <Navbar.Brand
+          onClick={(e) => {
+            e.preventDefault()
+            navigate('/')
+          }}
+          className="fw-bold"
+          style={{ fontSize: '28px' }}
+          href="/"
+        >
+          Boldo.
+        </Navbar.Brand>
         <button
           style={{ fontSize: '30px' }}
           onClick={() => setMenuOpen(true)}
@@ -48,7 +110,7 @@ export function BSHeader() {
           <AiOutlineShoppingCart />
         </button>
         <Navbar.Collapse>
-          <BSNavigation />
+          <BSNavigation setMenuOpen={setMenuOpen} />
         </Navbar.Collapse>
         <button
           style={{ fontSize: '30px' }}
@@ -58,13 +120,32 @@ export function BSHeader() {
         >
           <AiOutlineShoppingCart />
         </button>
+        {isAuthenticated ? (
+          <Link style={{ fontSize: '30px' }} className="btn" to="/user">
+            <AiOutlineUser />
+          </Link>
+        ) : (
+          <button
+            onClick={() => {
+              if (isAuthenticated == false) {
+                setAuthModal(true)
+              }
+            }}
+            style={{ fontSize: '30px' }}
+            className="btn"
+          >
+            <AiOutlineUser />
+          </button>
+        )}
       </Navbar>
       <Offcanvas show={menuOpen} placement="end" onHide={() => setMenuOpen(false)}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Menu</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <BSNavigation />  
+          <Navbar>
+            <BSNavigation setMenuOpen={setMenuOpen} />
+          </Navbar>
         </Offcanvas.Body>
       </Offcanvas>
 
@@ -73,7 +154,8 @@ export function BSHeader() {
           <Offcanvas.Title>Cart</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-             {cart.length > 0 ? cart.map((product, index) => {
+          {cart.length > 0 ? (
+            cart.map((product, index) => {
               return (
                 <ProductCardRow
                   key={index}
@@ -84,13 +166,16 @@ export function BSHeader() {
                   price={product.price}
                 />
               )
-            }) : <p className='lead text-danger'>No Products in Cart</p>}
+            })
+          ) : (
+            <p className="lead text-danger">No Products in Cart</p>
+          )}
+          {cart.length > 0 ? <Link onClick={()=>setCartOpen(false)}  to="/design">Go to Checkout Page</Link> : ""}
         </Offcanvas.Body>
       </Offcanvas>
     </header>
   )
 }
-
 
 export default function Header() {
   const [cartExpanded, setCartExpanded] = useState(false)

@@ -73,14 +73,14 @@ export function ProductCardRow({ name, company, id, image, price }) {
   const item = getItem(id)
 
   return (
-    <div className="card mb-3">
+    <div style={{overflow : "hidden"}} className="card mb-3">
       <div className="row g-0">
         <div className="col-md-5">
           <img
             style={{ height: '100%', objectFit: 'cover' }}
             src={image}
             alt={name}
-            className="img-fluid rounded-start"
+            className="img-fluid"
           />
         </div>
         <div className="col-md-7">
