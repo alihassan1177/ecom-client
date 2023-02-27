@@ -62,7 +62,7 @@ export function BSHeader() {
   }
 
   return (
-    <header className="container-fluid border-bottom">
+    <header style={{marginBottom : "76px"}}>
       <Modal centered show={authModal} onHide={() => setAuthModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Connect your Google Account</Modal.Title>
@@ -82,7 +82,7 @@ export function BSHeader() {
           </button>
         </Modal.Body>
       </Modal>
-      <Navbar expand="md">
+      <Navbar fixed="top" className="bg-white shadow px-3 border-bottom" expand="md">
         <Navbar.Brand
           onClick={(e) => {
             e.preventDefault()

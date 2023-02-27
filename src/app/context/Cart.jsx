@@ -68,6 +68,9 @@ export default function CartContext({ children }) {
       setCart((items) => [...items, product])
       localStorage.setItem(CART_KEY, JSON.stringify([...cart, product]))
       increaseTotal(setTotalAmount, product.price, totalAmount)
+      return true
+    }else{
+      return false
     }
   }
 

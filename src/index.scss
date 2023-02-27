@@ -23,4 +23,21 @@ $font-family-sans-serif : "Poppins", sans-serif;
   }
 }
 
+/* Animations */
+.scale-down{
+  transform-origin: 0% 0%;
+  animation: scale-down-anim 500ms ease-in-out forwards;
+}
+
+@keyframes scale-down-anim{
+  from{
+    transform : scale(1)
+  }
+  to{
+    transform: scale(0);
+    width: 0%;
+    height: 0%
+  }
+}
+
 @import '../node_modules/bootstrap/scss/bootstrap.scss';

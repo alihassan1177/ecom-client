@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BSHeader } from './components/Header'
 import ProductCard from './components/ProductCard.jsx'
 import { useEffect } from 'react'
@@ -15,6 +15,7 @@ import Contact from './pages/Contact'
 import Products from './pages/Products'
 import { AnimatePresence, motion } from 'framer-motion'
 import Design from './pages/design'
+import { Alert } from 'react-bootstrap'
 
 export default function App() {
   const { getProducts, loading, products } = useProducts()
@@ -52,29 +53,30 @@ ProductsComponent.propTypes = {
 }
 
 function ProductsComponent({ isLoaded, data }) {
+  
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, y: 30 }}
-      className="mt-3 md:container md:h-full flex-1 overflow-y-auto"
+      className="container-fluid"
     >
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
+     <div className="row row-cols-4 g-4">
         {isLoaded
           ? 'Loading'
           : data.map((product, index) => {
-            return (
-              <ProductCard
-                name={product.title}
-                id={product.id}
-                company={product.category}
-                key={index}
-                image={product.thumbnail}
-                price={product.price}
-                slug={product.slug}
-              />
-            )
-          })}
+              return (
+                <ProductCard
+                  name={product.title}
+                  id={product.id}
+                  company={product.category}
+                  key={index}
+                  image={product.thumbnail}
+                  price={product.price}
+                  slug={product.slug}
+                />
+              )
+            })}
       </div>
     </motion.div>
   )

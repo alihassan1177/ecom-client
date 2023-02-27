@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai'
 import { useShoppingCart } from '../context/Cart.jsx'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { ButtonGroup } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 
 ProductCard.propTypes = {
   name: PropTypes.string,
@@ -26,28 +26,27 @@ export default function ProductCard({ name, company, image, id, price, slug }) {
   }
 
   return (
-    <Link
-      to={`/product/${slug}`}
-      title={`${name} - ${company}`}
-      className="flex gap-2 transition-all cursor-pointer flex-col overflow-hidden rounded-md border border-gray-300"
-    >
-      <img
-        loading="lazy"
-        className="w-full h-[200px] object-cover m-0 p-0 block"
-        src={image}
-        alt={name}
-      />
-      <div className="p-4 border-t -mt-2 border-gray-300">
-        <h3 className="font-light capitalize text-[13px]">{company}</h3>
-        <h2 className="font-semibold capitalize truncate text-lg">{name}</h2>
-        <div className="flex justify-between items-center mt-3">
-          <h3 className="font-semibold capitalize text-3xl">${price}</h3>
-          <button className="btn secondary" onClick={() => addItemInCart(product)}>
+    <div title={`${name} - ${company}`} className="col">
+      <Card>
+        <Card.Img style={{ height: '200px', objectFit: 'cover' }} variant="top" src={image} />
+        <Card.Body style={{ textTransform: 'capitalize' }}>
+          <Card.Title>{name}</Card.Title>
+          <Card.Text>
+            <small>
+              category : {company} <br /> price : <strong>${price}</strong>{' '}
+            </small>{' '}
+          </Card.Text>
+          <button
+            onClick={() => {
+              addItemInCart(product)
+            }}
+            className="btn btn-dark"
+          >
             Add to Cart
           </button>
-        </div>
-      </div>
-    </Link>
+        </Card.Body>
+      </Card>
+    </div>
   )
 }
 
@@ -72,8 +71,10 @@ export function ProductCardRow({ name, company, id, image, price }) {
   } = useShoppingCart()
   const item = getItem(id)
 
+  const itemRef = useRef()
+
   return (
-    <div style={{overflow : "hidden"}} className="card mb-3">
+    <div ref={itemRef} style={{ overflow: 'hidden' }} className="card mb-3">
       <div className="row g-0">
         <div className="col-md-5">
           <img
@@ -95,7 +96,9 @@ export function ProductCardRow({ name, company, id, image, price }) {
                 className="btn border-end btn-light"
                 onClick={() => {
                   if (item.quantity <= 1) {
+                    itemRef.current.classList.add('scale-down')
                     removeItemFromCart(id, item, price)
+                    console.log(itemRef.current)
                   } else {
                     decreaseQuantity(item)
                     decreaseTotal(setTotalAmount, totalAmount, price)
