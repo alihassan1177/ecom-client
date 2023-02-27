@@ -65,11 +65,11 @@ export function BSHeader() {
     <header style={{marginBottom : "76px"}}>
       <Modal centered show={authModal} onHide={() => setAuthModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Connect your Google Account</Modal.Title>
+          <Modal.Title>User Login</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ paddingBlock: '24px' }}>
           <p className="text-center px-3">
-            Signin using your Google Account to keep track of your orders and payments
+            Connect your Google Account to keep track of your orders and payments
           </p>
           <button
             ref={authButton}
@@ -121,7 +121,7 @@ export function BSHeader() {
           <AiOutlineShoppingCart />
         </button>
         {isAuthenticated ? (
-          <Link style={{ fontSize: '30px' }} className="btn" to="/user">
+          <Link style={{ fontSize: '30px', marginRight : "-0.80rem" }} className="btn" to="/user">
             <AiOutlineUser />
           </Link>
         ) : (
@@ -131,7 +131,7 @@ export function BSHeader() {
                 setAuthModal(true)
               }
             }}
-            style={{ fontSize: '30px' }}
+            style={{ fontSize: '30px', marginRight : "-0.80rem" }}
             className="btn"
           >
             <AiOutlineUser />
