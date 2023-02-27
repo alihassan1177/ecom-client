@@ -82,7 +82,7 @@ export function BSHeader() {
           </button>
         </Modal.Body>
       </Modal>
-      <Navbar fixed="top" className="bg-white shadow px-3 border-bottom" expand="md">
+      <Navbar fixed="top" className="bg-white shadow-sm px-3 border-bottom" expand="md">
         <Navbar.Brand
           onClick={(e) => {
             e.preventDefault()

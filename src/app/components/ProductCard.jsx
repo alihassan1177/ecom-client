@@ -27,10 +27,10 @@ export default function ProductCard({ name, company, image, id, price, slug }) {
 
   return (
     <div title={`${name} - ${company}`} className="col">
-      <Card>
-        <Card.Img style={{ height: '200px', objectFit: 'cover' }} variant="top" src={image} />
+      <Card className="shadow-sm">
+        <Card.Img style={{ height: '250px', objectFit: 'cover' }} variant="top" src={image} />
         <Card.Body style={{ textTransform: 'capitalize' }}>
-          <Card.Title>{name}</Card.Title>
+          <h6>{name}</h6>
           <Card.Text>
             <small>
               category : {company} <br /> price : <strong>${price}</strong>{' '}
@@ -40,7 +40,8 @@ export default function ProductCard({ name, company, image, id, price, slug }) {
             onClick={() => {
               addItemInCart(product)
             }}
-            className="btn btn-dark"
+            style={{width : "100%"}}
+            className="btn btn-outline-dark"
           >
             Add to Cart
           </button>

@@ -15,7 +15,6 @@ import Contact from './pages/Contact'
 import Products from './pages/Products'
 import { AnimatePresence, motion } from 'framer-motion'
 import Design from './pages/design'
-import { Alert } from 'react-bootstrap'
 
 export default function App() {
   const { getProducts, loading, products } = useProducts()
@@ -61,16 +60,16 @@ function ProductsComponent({ isLoaded, data }) {
       exit={{ opacity: 0, y: 30 }}
       className="container-fluid"
     >
-     <div className="row row-cols-4 g-4">
+     <div className="row row-cols-2 row-cols-lg-4 g-4">
         {isLoaded
           ? 'Loading'
-          : data.map((product, index) => {
+          : data.map((product) => {
               return (
                 <ProductCard
                   name={product.title}
                   id={product.id}
                   company={product.category}
-                  key={index}
+                  key={product.id}
                   image={product.thumbnail}
                   price={product.price}
                   slug={product.slug}
