@@ -32,11 +32,11 @@ export default function App() {
         <AnimatePresence>
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<ProductsComponent isLoaded={loading} data={products} />} />
-            <Route path="/product/:slug" element={<SingleProduct />} />
+            <Route path="/products/:slug" element={<SingleProduct />} />
             <Route path="/design" element={<Design />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/Products" element={<Products />} />
+            <Route path="/products" element={<Products />} />
             {isAuthenticated ? <Route path="/user" element={<UserDashboard />} /> : ''}
             <Route path="*" element={<NotFound />} />
           </Routes>
@@ -52,30 +52,43 @@ ProductsComponent.propTypes = {
 }
 
 function ProductsComponent({ isLoaded, data }) {
-  
+  const [products, setProducts] = useState([])
+  const [index, setIndex] = useState(0)
+
+  function sliceIntoChunks(arr, chunkSize) {
+    const res = []
+    for (let i = 0; i < arr.length; i += chunkSize) {
+      const chunk = arr.slice(i, i + chunkSize)
+      res.push(chunk)
+    }
+    return res
+  }
+
+  function renderProducts() {
+    return data.map((product) => {
+      return (
+        <ProductCard
+          name={product.title}
+          id={product.id}
+          company={product.category}
+          key={product.id}
+          image={product.thumbnail}
+          price={product.price}
+          slug={product.slug}
+        />
+      )
+    })
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, y: 30 }}
-      className="container-fluid"
+      className="container"
     >
-     <div className="row row-cols-2 row-cols-lg-4 g-4">
-        {isLoaded
-          ? 'Loading'
-          : data.map((product) => {
-              return (
-                <ProductCard
-                  name={product.title}
-                  id={product.id}
-                  company={product.category}
-                  key={product.id}
-                  image={product.thumbnail}
-                  price={product.price}
-                  slug={product.slug}
-                />
-              )
-            })}
+      <div className="row row-cols-2 row-cols-lg-4 g-4">
+        {isLoaded ? 'Loading' : renderProducts()}
       </div>
     </motion.div>
   )

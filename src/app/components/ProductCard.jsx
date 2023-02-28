@@ -4,6 +4,7 @@ import { useShoppingCart } from '../context/Cart.jsx'
 import PropTypes from 'prop-types'
 import { ButtonGroup } from 'react-bootstrap'
 import { Card } from 'react-bootstrap'
+import { useNavigate, Link } from 'react-router-dom'
 
 ProductCard.propTypes = {
   name: PropTypes.string,
@@ -15,6 +16,8 @@ ProductCard.propTypes = {
 }
 
 export default function ProductCard({ name, company, image, id, price, slug }) {
+  
+
   const { addItemInCart } = useShoppingCart()
   const product = {
     name: name,
@@ -26,15 +29,16 @@ export default function ProductCard({ name, company, image, id, price, slug }) {
   }
 
   return (
-    <div title={`${name} - ${company}`} className="col">
+    <Link to={`/products/${slug}`} title={`${name} - ${company}`} className="col text-decoration-none text-dark">
       <Card className="shadow-sm">
-        <Card.Img style={{ height: '250px', objectFit: 'cover' }} variant="top" src={image} />
+        <Card.Img style={{ height: '250px', objectFit: 'cover' }} className="border-bottom" variant="top" src={image} />
         <Card.Body style={{ textTransform: 'capitalize' }}>
-          <h6>{name}</h6>
+          <Card.Text className="p-0 m-0 mb-1"><small>category : {company}</small></Card.Text>
+          <Card.Title style={{textOverflow : "ellipsis"}} className="text-nowrap overflow-hidden">{name}</Card.Title>
           <Card.Text>
             <small>
-              category : {company} <br /> price : <strong>${price}</strong>{' '}
-            </small>{' '}
+               price : <strong>${price}</strong>{' '}
+            </small>
           </Card.Text>
           <button
             onClick={() => {
@@ -47,7 +51,7 @@ export default function ProductCard({ name, company, image, id, price, slug }) {
           </button>
         </Card.Body>
       </Card>
-    </div>
+    </Link>
   )
 }
 
@@ -97,9 +101,7 @@ export function ProductCardRow({ name, company, id, image, price }) {
                 className="btn border-end btn-light"
                 onClick={() => {
                   if (item.quantity <= 1) {
-                    itemRef.current.classList.add('scale-down')
                     removeItemFromCart(id, item, price)
-                    console.log(itemRef.current)
                   } else {
                     decreaseQuantity(item)
                     decreaseTotal(setTotalAmount, totalAmount, price)

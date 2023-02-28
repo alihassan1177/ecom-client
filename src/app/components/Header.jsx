@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react'
+import React, { useState, useContext, useRef, useEffect } from 'react'
 import Navigation from './Navigation.jsx'
 import PropTypes from 'prop-types'
 import { ProductCardRow } from './ProductCard.jsx'
@@ -61,8 +61,12 @@ export function BSHeader() {
     }
   }
 
+  useEffect(()=>{
+    console.log("Header Component")
+  },[])
+
   return (
-    <header style={{marginBottom : "76px"}}>
+    <header style={{ marginBottom: '100px' }}>
       <Modal centered show={authModal} onHide={() => setAuthModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>User Login</Modal.Title>
@@ -83,60 +87,62 @@ export function BSHeader() {
         </Modal.Body>
       </Modal>
       <Navbar fixed="top" className="bg-white shadow-sm px-3 border-bottom" expand="md">
-        <Navbar.Brand
-          onClick={(e) => {
-            e.preventDefault()
-            navigate('/')
-          }}
-          className="fw-bold"
-          style={{ fontSize: '28px' }}
-          href="/"
-        >
-          Boldo.
-        </Navbar.Brand>
-        <button
-          style={{ fontSize: '30px' }}
-          onClick={() => setMenuOpen(true)}
-          className="btn ms-auto d-md-none"
-        >
-          <AiOutlineMenu />
-        </button>
-        <button
-          style={{ fontSize: '30px' }}
-          data-total={cart.length}
-          onClick={() => setCartOpen(true)}
-          className="btn d-md-none cart-btn"
-        >
-          <AiOutlineShoppingCart />
-        </button>
-        <Navbar.Collapse>
-          <BSNavigation setMenuOpen={setMenuOpen} />
-        </Navbar.Collapse>
-        <button
-          style={{ fontSize: '30px' }}
-          data-total={cart.length}
-          onClick={() => setCartOpen(true)}
-          className="btn d-none d-md-block cart-btn"
-        >
-          <AiOutlineShoppingCart />
-        </button>
-        {isAuthenticated ? (
-          <Link style={{ fontSize: '30px', marginRight : "-0.80rem" }} className="btn" to="/user">
-            <AiOutlineUser />
-          </Link>
-        ) : (
-          <button
-            onClick={() => {
-              if (isAuthenticated == false) {
-                setAuthModal(true)
-              }
+        <div className="container">
+          <Navbar.Brand
+            onClick={(e) => {
+              e.preventDefault()
+              navigate('/')
             }}
-            style={{ fontSize: '30px', marginRight : "-0.80rem" }}
-            className="btn"
+            className="fw-bold"
+            style={{ fontSize: '28px' }}
+            href="/"
           >
-            <AiOutlineUser />
+            Boldo.
+          </Navbar.Brand>
+          <button
+            style={{ fontSize: '30px' }}
+            onClick={() => setMenuOpen(true)}
+            className="btn ms-auto d-md-none"
+          >
+            <AiOutlineMenu />
           </button>
-        )}
+          <button
+            style={{ fontSize: '30px' }}
+            data-total={cart.length}
+            onClick={() => setCartOpen(true)}
+            className="btn d-md-none cart-btn"
+          >
+            <AiOutlineShoppingCart />
+          </button>
+          <Navbar.Collapse>
+            <BSNavigation setMenuOpen={setMenuOpen} />
+          </Navbar.Collapse>
+          <button
+            style={{ fontSize: '30px' }}
+            data-total={cart.length}
+            onClick={() => setCartOpen(true)}
+            className="btn d-none d-md-block cart-btn"
+          >
+            <AiOutlineShoppingCart />
+          </button>
+          {isAuthenticated ? (
+            <Link style={{ fontSize: '30px', marginRight: '-0.80rem' }} className="btn" to="/user">
+              <AiOutlineUser />
+            </Link>
+          ) : (
+            <button
+              onClick={() => {
+                if (isAuthenticated == false) {
+                  setAuthModal(true)
+                }
+              }}
+              style={{ fontSize: '30px', marginRight: '-0.80rem' }}
+              className="btn"
+            >
+              <AiOutlineUser />
+            </button>
+          )}
+        </div>
       </Navbar>
       <Offcanvas show={menuOpen} placement="end" onHide={() => setMenuOpen(false)}>
         <Offcanvas.Header closeButton>
@@ -170,7 +176,13 @@ export function BSHeader() {
           ) : (
             <p className="lead text-danger">No Products in Cart</p>
           )}
-          {cart.length > 0 ? <Link onClick={()=>setCartOpen(false)}  to="/design">Go to Checkout Page</Link> : ""}
+          {cart.length > 0 ? (
+            <Link onClick={() => setCartOpen(false)} to="/design">
+              Go to Checkout Page
+            </Link>
+          ) : (
+            ''
+          )}
         </Offcanvas.Body>
       </Offcanvas>
     </header>

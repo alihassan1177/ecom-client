@@ -24,7 +24,7 @@ export default function ProductContext({ children }) {
     setProducts(() => [...data])
     console.log(data[0])
     getCategories(data)
-    localStorage.setItem(PRODUCTS_KEY, JSON.stringify(data))
+    //localStorage.setItem(PRODUCTS_KEY, JSON.stringify(data))
   }
 
   function getCategories(data) {
@@ -56,6 +56,7 @@ export default function ProductContext({ children }) {
     })
     addProducts(productsData)
   }
+
 
   async function getProductBySlug(slug) {
     let data
