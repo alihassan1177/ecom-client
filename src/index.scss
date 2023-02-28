@@ -36,7 +36,19 @@ $font-family-sans-serif : "Poppins", sans-serif;
   to{
     transform: scale(0);
     width: 0%;
-    height: 0%
+    height: 0%;
+  }
+}
+
+/* Custom Classes */
+
+.single-product-img{
+  height: 350px;
+}
+
+@media screen and ( width < 768px) {
+  .single-product-img{
+    height: 200px;
   }
 }
 

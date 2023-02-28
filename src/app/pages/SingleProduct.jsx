@@ -41,17 +41,17 @@ export default function SingleProduct() {
       {loading ? (
         'Loading...'
       ) : (
-        <div className="row row-cols-1 row-cols-md-2 g-4">
+        <div className="row row-cols-1 row-cols-md-2  g-4">
           <div className="col">
             <img
-              style={{ width: '100%', height: '350px', objectFit: 'cover' }}
+              style={{ width: '100%', objectFit: 'cover' }}
               src={product.thumbnail}
-              className="border"
-                alt={product.title}
+              className="border single-product-img"
+              alt={product.title}
             />
           </div>
           <div className="col">
-            <h1>{product.title}</h1>
+            <h1 style={{ textTransform: 'capitalize' }}>{product.title}</h1>
             <p>Description : {product.description}</p>
             <p style={{ textTransform: 'capitalize' }}>Category : {product.category}</p>
             <p>
