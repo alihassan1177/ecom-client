@@ -1,6 +1,6 @@
 /* Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-$font-family-sans-serif : "Poppins", sans-serif;
+$font-family-sans-serif: 'Poppins', sans-serif;
 
 /* Buttons */
 .cart-btn {
@@ -14,26 +14,26 @@ $font-family-sans-serif : "Poppins", sans-serif;
     font-size: 14px;
     border-radius: 100%;
     top: 10px;
-    left: 33px; 
+    left: 33px;
     min-width: 20px;
     aspect-ratio: 1;
     display: grid;
     place-items: center;
-    padding:0px 2px;
+    padding: 0px 2px;
   }
 }
 
 /* Animations */
-.scale-down{
+.scale-down {
   transform-origin: 0% 0%;
   animation: scale-down-anim 500ms ease-in-out forwards;
 }
 
-@keyframes scale-down-anim{
-  from{
-    transform : scale(1)
+@keyframes scale-down-anim {
+  from {
+    transform: scale(1);
   }
-  to{
+  to {
     transform: scale(0);
     width: 0%;
     height: 0%;
@@ -42,12 +42,37 @@ $font-family-sans-serif : "Poppins", sans-serif;
 
 /* Custom Classes */
 
-.single-product-img{
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+
+  .crumb {
+    text-decoration: none;
+    text-transform: capitalize;
+    color : gray;
+    font-size: 14px;
+    &:hover{
+      color : black
+    }
+    &::after {
+      content: '/';
+      margin: 0px 10px;
+    }
+    &:last-of-type{
+      color: black;
+      &::after{
+        content : "";
+      }
+    }
+  }
+}
+
+.single-product-img {
   height: 350px;
 }
 
-@media screen and ( width < 768px) {
-  .single-product-img{
+@media screen and (width < 768px) {
+  .single-product-img {
     height: 200px;
   }
 }

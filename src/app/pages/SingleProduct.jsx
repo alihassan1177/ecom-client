@@ -4,6 +4,7 @@ import { useProducts } from '../context/Product.jsx'
 import { motion } from 'framer-motion'
 import { useShoppingCart } from '../context/Cart.jsx'
 import {ProductsComponent} from "../app.jsx"
+import Breadcrumbs from '../components/Breadcrumbs.jsx'
 
 export default function SingleProduct() {
   const { slug } = useParams()
@@ -42,6 +43,7 @@ export default function SingleProduct() {
       exit={{ opacity: 0 }}
       className="container"
     >
+      <Breadcrumbs />
       {loader ? (
         'Loading...'
       ) : (
