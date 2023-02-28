@@ -3,14 +3,16 @@ import { useParams } from 'react-router-dom'
 import { useProducts } from '../context/Product.jsx'
 import { motion } from 'framer-motion'
 import { useShoppingCart } from '../context/Cart.jsx'
+import {ProductsComponent} from "../app.jsx"
 
 export default function SingleProduct() {
   const { slug } = useParams()
-  const { getProductBySlug } = useProducts()
+  const { getProductBySlug, getProductsByCategory} = useProducts()
   const [product, setProduct] = useState()
-  const [loading, setLoading] = useState(true)
-
+  const [loader, setLoading] = useState(true)
+  const [relatedProducts, setRelatedProducts] = useState([])
   const { addItemInCart } = useShoppingCart()
+
   const data = {
     name: product?.title,
     company: product?.category,
@@ -23,6 +25,8 @@ export default function SingleProduct() {
   async function getProduct() {
     const productData = await getProductBySlug(slug)
     setProduct(productData)
+    const relatedData = await getProductsByCategory(productData.category)
+    setRelatedProducts(relatedData)
     setLoading(false)
   }
 
@@ -38,7 +42,7 @@ export default function SingleProduct() {
       exit={{ opacity: 0 }}
       className="container"
     >
-      {loading ? (
+      {loader ? (
         'Loading...'
       ) : (
         <div className="row row-cols-1 row-cols-md-2  g-4">
@@ -63,6 +67,8 @@ export default function SingleProduct() {
           </div>
         </div>
       )}
+      <h2 className='mt-5 mb-3'>Related Products</h2>
+      {loader ? "Loading..." : <ProductsComponent  data={relatedProducts} isLoaded={loader} />}
     </motion.div>
   )
 }

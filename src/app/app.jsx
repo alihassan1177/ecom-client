@@ -15,7 +15,7 @@ import Contact from './pages/Contact'
 import Products from './pages/Products'
 import { AnimatePresence, motion } from 'framer-motion'
 import Design from './pages/design'
-
+import ScrollToTop from './components/ScrollToTop'
 export default function App() {
   const { getProducts, loading, products } = useProducts()
   const { isAuthenticated } = useUser()
@@ -28,10 +28,11 @@ export default function App() {
   return (
     <main className="md:block flex flex-col md:max-h-full max-h-screen overflow-hidden">
       <CartContext>
+        <ScrollToTop />
         <BSHeader />
         <AnimatePresence>
           <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<ProductsComponent isLoaded={loading} data={products} />} />
+            <Route path="/" element={<div className='container'> <ProductsComponent isLoaded={loading} data={products} /> </div>} />
             <Route path="/products/:slug" element={<SingleProduct />} />
             <Route path="/design" element={<Design />} />
             <Route path="/about" element={<About />} />
@@ -51,9 +52,9 @@ ProductsComponent.propTypes = {
   data: PropTypes.any
 }
 
-function ProductsComponent({ isLoaded, data }) {
-  const [products, setProducts] = useState([])
-  const [index, setIndex] = useState(0)
+export function ProductsComponent({ isLoaded, data }) {
+  
+  console.log(data)
 
   function sliceIntoChunks(arr, chunkSize) {
     const res = []
@@ -85,7 +86,6 @@ function ProductsComponent({ isLoaded, data }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, y: 30 }}
-      className="container"
     >
       <div className="row row-cols-2 row-cols-lg-4 g-4">
         {isLoaded ? 'Loading' : renderProducts()}

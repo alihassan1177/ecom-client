@@ -57,7 +57,6 @@ export default function ProductContext({ children }) {
     addProducts(productsData)
   }
 
-
   async function getProductBySlug(slug) {
     let data
     for (let i = 0; i < products.length; i++) {
@@ -77,6 +76,23 @@ export default function ProductContext({ children }) {
     }
   }
 
+  async function getProductsByCategory(category) {
+    let productsData = filterByCategory(category)
+
+    if (productsData.length == 0) {
+      const response = await fetch(`https://dummyjson.com/products/category/${category}`)
+      const data = await response.json()
+      productsData = data.products.map((product) => {
+        const slug = `${product.title}-${product.brand}-${product.category}-${product.id}`
+          .split(' ')
+          .join('-')
+          .toLowerCase()
+        return Object.assign(product, { slug: slug })
+      })
+    }
+    return productsData
+  }
+
   return (
     <context.Provider
       value={{
@@ -86,7 +102,8 @@ export default function ProductContext({ children }) {
         loading,
         getProducts,
         categories,
-        filterByCategory
+        filterByCategory,
+        getProductsByCategory
       }}
     >
       {children}
