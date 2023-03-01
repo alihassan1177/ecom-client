@@ -32,7 +32,7 @@ export default function App() {
         <BSHeader />
         <AnimatePresence>
           <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<div className='container'> <ProductsComponent isLoaded={loading} data={products} /> </div>} />
+            <Route path="/" element={<div className='container-fluid'> <ProductsComponent isLoaded={loading} data={products} /> </div>} />
             <Route path="/products/:slug" element={<SingleProduct />} />
             <Route path="/design" element={<Design />} />
             <Route path="/about" element={<About />} />

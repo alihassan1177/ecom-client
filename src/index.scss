@@ -68,13 +68,76 @@ $font-family-sans-serif: 'Poppins', sans-serif;
 }
 
 .single-product-img {
-  height: 350px;
+  height: 550px;
 }
 
 @media screen and (width < 768px) {
   .single-product-img {
     height: 200px;
   }
+}
+
+.searchbar-input{
+  padding : 8px;
+  transition : width 200ms ease-in-out, opacity 200ms ease-in-out;
+}
+
+.searchbar{
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+}
+.searchbar.visible{
+  .searchbar-input{
+    width :100%;
+  }
+}
+.searchbar.invisible{
+  .searchbar-input{
+    width :0%;
+  }
+}
+
+.suggestions{
+  padding : 0;
+  margin : 0;
+  list-style: none;
+  position: absolute;
+  background: white;
+  border: 0.5px solid gray ;
+  width : 100%;
+
+  .suggestion-item{
+    display: block;
+    padding: 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space : nowrap;    
+    cursor: pointer;
+
+    &:hover{
+      background: gray;
+    }
+  }
+}
+
+.suggestions.hide {
+  animation: Hide 200ms ease-out forwards;
+}
+
+@keyframes Hide{
+  0%{
+    opacity: 0;
+    z-index: 1;
+  }
+  100%{
+    opacity: 0;
+    z-index: -1;
+  }
+}
+
+.suggestions.show {
+  z-index: 1;
 }
 
 @import '../node_modules/bootstrap/scss/bootstrap.scss';

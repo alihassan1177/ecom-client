@@ -41,7 +41,7 @@ export default function SingleProduct() {
       animate={{ opacity: 1 }}
       transition={{ delay: 0.1 }}
       exit={{ opacity: 0 }}
-      className="container"
+      className="container-fluid"
     >
       <Breadcrumbs />
       {loader ? (

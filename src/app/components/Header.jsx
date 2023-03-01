@@ -2,10 +2,16 @@ import React, { useState, useContext, useRef, useEffect } from 'react'
 import Navigation from './Navigation.jsx'
 import PropTypes from 'prop-types'
 import { ProductCardRow } from './ProductCard.jsx'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { FaTimes } from 'react-icons/fa'
 import { context as CartContext, useShoppingCart } from '../context/Cart.jsx'
-import { AiOutlineShoppingCart, AiOutlineUser, AiOutlineMenu } from 'react-icons/ai'
+import {
+  AiOutlineShoppingCart,
+  AiOutlineUser,
+  AiOutlineMenu,
+  AiOutlineSearch,
+  AiOutlineClose
+} from 'react-icons/ai'
 import GoogleIcon from '/images/google.png'
 import { useUser } from '../context/User.jsx'
 import { useNavigate } from 'react-router-dom'
@@ -34,9 +40,44 @@ function BSNavigation({ setMenuOpen }) {
   )
 }
 
+Searchbar.propTypes = {
+  visible: PropTypes.any
+}
+
+function Searchbar({ visible }) {
+
+  const navigate = useNavigate()
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [value, setValue] = useState("")
+  const formRef = useRef()
+  
+  function handleSubmit(e){
+    e.preventDefault()
+    console.log(value)
+    navigate(`/products/`)
+  }
+  return (
+    <div
+      className={
+        visible ? 'searchbar visible d-none d-md-block' : 'searchbar invisible d-none d-md-block'
+      }
+    >
+      <form ref={formRef} onSubmit={handleSubmit}> <input  value={value} onChange={(e)=>setValue(e.target.value)} placeholder="Search Products..." onFocus={()=>setShowSuggestions(true)} onBlur={()=>setShowSuggestions(false)} type="text" className="searchbar-input" />
+      </form>
+      <ul className={`suggestions ${showSuggestions ? "show" : "hide"}`}>
+        <li onClick={()=> {
+          setValue("About")
+          formRef.current.requestSubmit()
+          }} className="suggestion-item">About</li>
+      </ul>
+    </div>
+  )
+}
+
 export function BSHeader() {
   const [cartOpen, setCartOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [searchbarOpen, setSearchbarOpen] = useState(false)
 
   const [authModal, setAuthModal] = useState(false)
   const { isAuthenticated, handleAuth } = useUser()
@@ -61,9 +102,9 @@ export function BSHeader() {
     }
   }
 
-  useEffect(()=>{
-    console.log("Header Component")
-  },[])
+  useEffect(() => {
+    console.log('Header Component')
+  }, [])
 
   return (
     <header style={{ marginBottom: '100px' }}>
@@ -86,8 +127,8 @@ export function BSHeader() {
           </button>
         </Modal.Body>
       </Modal>
-      <Navbar fixed="top" className="bg-white shadow-sm px-3 border-bottom" expand="md">
-        <div className="container">
+      <Navbar fixed="top" className="bg-white shadow-sm  border-bottom" expand="md">
+        <div className="container-fluid">
           <Navbar.Brand
             onClick={(e) => {
               e.preventDefault()
@@ -106,22 +147,31 @@ export function BSHeader() {
           >
             <AiOutlineMenu />
           </button>
+
           <button
             style={{ fontSize: '30px' }}
             data-total={cart.length}
             onClick={() => setCartOpen(true)}
-            className="btn d-md-none cart-btn"
+            className="btn d-md-none me-2 cart-btn"
           >
             <AiOutlineShoppingCart />
           </button>
           <Navbar.Collapse>
             <BSNavigation setMenuOpen={setMenuOpen} />
           </Navbar.Collapse>
+          <Searchbar visible={searchbarOpen} />
+          <button
+            style={{ fontSize: '30px' }}
+            onClick={() => setSearchbarOpen((prev) => !prev)}
+            className="btn d-none d-md-block"
+          >
+            {searchbarOpen ? <AiOutlineClose /> : <AiOutlineSearch />}
+          </button>
           <button
             style={{ fontSize: '30px' }}
             data-total={cart.length}
             onClick={() => setCartOpen(true)}
-            className="btn d-none d-md-block cart-btn"
+            className="btn d-none d-md-block me-2 cart-btn"
           >
             <AiOutlineShoppingCart />
           </button>
