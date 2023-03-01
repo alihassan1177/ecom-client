@@ -56,7 +56,7 @@ export default function SingleProduct() {
               alt={product.title}
             />
           </div>
-          <div className="col">
+          <div className="col col-md-4">
             <h1 style={{ textTransform: 'capitalize' }}>{product.title}</h1>
             <p>Description : {product.description}</p>
             <p style={{ textTransform: 'capitalize' }}>Category : {product.category}</p>

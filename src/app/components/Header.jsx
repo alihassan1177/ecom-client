@@ -16,7 +16,7 @@ import GoogleIcon from '/images/google.png'
 import { useUser } from '../context/User.jsx'
 import { useNavigate } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
-
+import { useProducts } from '../context/Product.jsx'
 import { Navbar, Nav, Offcanvas, Modal } from 'react-bootstrap'
 
 BSNavigation.propTypes = {
@@ -45,30 +45,57 @@ Searchbar.propTypes = {
 }
 
 function Searchbar({ visible }) {
-
   const navigate = useNavigate()
   const [showSuggestions, setShowSuggestions] = useState(false)
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState('')
   const formRef = useRef()
-  
-  function handleSubmit(e){
+
+  const { products } = useProducts()
+
+  const filteredItems = products.filter((item) => {
+    return item.category.toLowerCase().includes(value.toLowerCase()) || item.title.toLowerCase().includes(value.toLowerCase()) 
+  }).slice(0, 10)
+
+  function handleSubmit(e) {
     e.preventDefault()
     console.log(value)
     navigate(`/products/`)
   }
+
+  useEffect(() => {
+    console.log(filteredItems)
+  }, [value])
+
   return (
     <div
       className={
         visible ? 'searchbar visible d-none d-md-block' : 'searchbar invisible d-none d-md-block'
       }
     >
-      <form ref={formRef} onSubmit={handleSubmit}> <input  value={value} onChange={(e)=>setValue(e.target.value)} placeholder="Search Products..." onFocus={()=>setShowSuggestions(true)} onBlur={()=>setShowSuggestions(false)} type="text" className="searchbar-input" />
+      <form ref={formRef} onSubmit={handleSubmit}>
+        <input
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder="Search Products..."
+          onFocus={() => setShowSuggestions(true)}
+          onBlur={() => setShowSuggestions(false)}
+          type="text"
+          className="searchbar-input"
+        />
       </form>
-      <ul className={`suggestions ${showSuggestions ? "show" : "hide"}`}>
-        <li onClick={()=> {
-          setValue("About")
-          formRef.current.requestSubmit()
-          }} className="suggestion-item">About</li>
+      <ul className={`suggestions ${showSuggestions ? 'show' : 'hide'}`}>
+        {filteredItems != null ? filteredItems.map(item => {
+          return <li
+            key={item.id}
+            onClick={() => {
+              setValue(item.title)
+              formRef.current.requestSubmit()
+            }}
+            className="suggestion-item"
+          >
+            {item.title}
+          </li>
+        }) : "No Products"}
       </ul>
     </div>
   )
