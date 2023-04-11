@@ -53,7 +53,7 @@ function Searchbar({ visible }) {
   const { products } = useProducts()
 
   const filteredItems = products.filter((item) => {
-    return item.category.toLowerCase().includes(value.toLowerCase()) || item.title.toLowerCase().includes(value.toLowerCase()) 
+    return item.category.toLowerCase().includes(value.toLowerCase()) || item.title.toLowerCase().includes(value.toLowerCase())
   }).slice(0, 10)
 
   function handleSubmit(e) {
@@ -254,7 +254,7 @@ export function BSHeader() {
             <p className="lead text-danger">No Products in Cart</p>
           )}
           {cart.length > 0 ? (
-            <Link onClick={() => setCartOpen(false)} to="/design">
+            <Link onClick={() => setCartOpen(false)} to="/checkout">
               Go to Checkout Page
             </Link>
           ) : (

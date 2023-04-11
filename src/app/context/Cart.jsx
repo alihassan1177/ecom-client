@@ -59,7 +59,8 @@ export default function CartContext({ children }) {
       Subject: 'You made a Purchase on Boldo Store, Here are the details',
       Body: `Total Purchase Amount : ${getTotalAmount()}`
     }
-    window.Email.send(config).then((message) => alert(message))
+    window.Email.send(config).then((message) => console.log(message))
+    return true
   }
 
   function addItemInCart(product) {
@@ -69,7 +70,7 @@ export default function CartContext({ children }) {
       localStorage.setItem(CART_KEY, JSON.stringify([...cart, product]))
       increaseTotal(setTotalAmount, product.price, totalAmount)
       return true
-    }else{
+    } else {
       return false
     }
   }

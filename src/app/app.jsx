@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BSHeader } from './components/Header'
 import ProductCard from './components/ProductCard.jsx'
 import { useEffect } from 'react'
@@ -14,8 +14,9 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Products from './pages/Products'
 import { AnimatePresence, motion } from 'framer-motion'
-import Design from './pages/design'
 import ScrollToTop from './components/ScrollToTop'
+import Checkout from './pages/Checkout'
+
 export default function App() {
   const { getProducts, loading, products } = useProducts()
   const { isAuthenticated } = useUser()
@@ -34,7 +35,7 @@ export default function App() {
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<div className='container-fluid'> <ProductsComponent isLoaded={loading} data={products} /> </div>} />
             <Route path="/products/:slug" element={<SingleProduct />} />
-            <Route path="/design" element={<Design />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/products" element={<Products />} />
@@ -53,7 +54,7 @@ ProductsComponent.propTypes = {
 }
 
 export function ProductsComponent({ isLoaded, data }) {
-  
+
   console.log(data)
 
   function sliceIntoChunks(arr, chunkSize) {
